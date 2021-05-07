@@ -1,8 +1,10 @@
-mod errors;
+//mod errors;
 //mod restaurant;
+mod traits;
 
 fn main() {
 //    restaurant::run();
-   errors::run();
+//   errors::run();
+    traits::run();
 }
 

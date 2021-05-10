@@ -1,11 +1,26 @@
+//! # Minigrep
+//!
+//! `minigrep` is a tool to grep for strings in a file
+//!
+//! ## Examples
+//!
+//! Just call the run function to see it in action:
+//! ```
+//! minigrep::run()
+//! ```
+//!
 use std::env;
 use std::error::Error;
 use std::fs;
 use std::process;
 
-struct Config {
+///Configuration for grepping
+pub struct Config {
+    /// Query string to search for
     query: String,
+    /// Name of the file to search in
     filename: String,
+    /// If the search will be case sensitive
     case_sensitive: bool,
 }
 
@@ -25,7 +40,32 @@ impl Config {
     }
 }
 
-
+/// Greps for a query string as given in config
+///
+/// # Panics
+///
+/// No panic intended.
+///
+///
+/// # Errors
+///
+/// Returns with an Error if file cannot be read (anything std::fs::read_to_string chokes on).
+///
+///
+/// # Safety
+///
+/// This should be memory safe.
+///
+///
+/// # Examples
+///
+/// ```
+/// if let Err(err) = grep(config) {
+///     eprintln!("Something went wrong reading the file: {:?}", err);
+///     process::exit(2);
+///  };
+/// panic!("fdasf");
+/// ```
 fn grep(config: Config) -> Result<(), Box<dyn Error>> {
     let contents = fs::read_to_string(config.filename)?;
     //println!("With text:\n{}", contents);
@@ -42,21 +82,12 @@ struct SearchResult {
     line: String,
 }
 
-fn search(mut query: String, mut contents: String, case_sensitive: bool) -> Vec<SearchResult> {
+fn search(mut query: String, contents: String, case_sensitive: bool) -> Vec<SearchResult> {
     let mut results = Vec::new();
+    let mut line_no = 1;
     if !case_sensitive {
         query = query.to_lowercase();
-        contents = contents.to_lowercase();
     }
-    for (line_no, line) in contents.lines().enumerate() {
-         // No filter: Need correct line number for SearchResult
-         //.filter(|line| line.contains(&query))
-        if line.contains(&query) {
-            results.push(SearchResult { line_no: line_no + 1, line: line.to_string() });
-        }
-    }
-    /*
-    let mut line_no = 1;
     for line in contents.lines() {
         let mut push = false;
         if case_sensitive && line.contains(&query) {
@@ -65,11 +96,10 @@ fn search(mut query: String, mut contents: String, case_sensitive: bool) -> Vec<
            push = true;
         }
         if push {
-            results.push(SearchResult { line_no: lineno, line: line.to_string() });
+            results.push(SearchResult { line_no: line_no, line: line.to_string() });
         }
-        lineno += 1;
+        line_no += 1;
     }
-     */
     results
 }
 
@@ -105,7 +135,8 @@ Duct tape.";
             line_no: 2,
             line: "safe, fast, productive.".to_string(),
         };
-        let result = search(query, contents, true);
+        let result = search(
+            query.to_string(), contents.to_string(), true);
         assert_eq!(1, result.len());
         assert_eq!(expected, result[0]);
     }
@@ -129,7 +160,8 @@ Trust me.";
                 line: "Trust me.".to_string(),
             },
         ];
-        let result = search(query, contents, false);
+        let result = search(
+            query.to_string(), contents.to_string(), false);
         assert_eq!(2, result.len());
         assert_eq!(expected[0], result[0]);
         assert_eq!(expected[1], result[1]);

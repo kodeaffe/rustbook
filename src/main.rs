@@ -7,6 +7,9 @@ mod minigrep;
 //mod closure;
 //mod iterator;
 
+pub use minigrep::Config;
+
+
 fn main() {
 //    restaurant::run();
 //   errors::run();

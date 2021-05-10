@@ -10,13 +10,16 @@ struct Config {
 }
 
 impl Config {
-    fn new(args: &[String]) -> Result<Config, &str> {
-        if args.len() < 3 {
-            return Err("not enough arguments");
-        }
-
-        let query = args[1].clone();
-        let filename = args[2].clone();
+    fn new(mut args: env::Args) -> Result<Config, &'static str> {
+        args.next(); // skip program name
+        let query = match args.next() {
+            Some(arg) => arg,
+            None => return Err("No query string!"),
+        };
+        let filename = match args.next() {
+            Some(arg) => arg,
+            None => return Err("No filename!"),
+        };
         let case_sensitive = env::var("CASE_INSENSITIVE").is_err();
         Ok(Config { query, filename, case_sensitive })
     }
@@ -26,7 +29,7 @@ impl Config {
 fn grep(config: Config) -> Result<(), Box<dyn Error>> {
     let contents = fs::read_to_string(config.filename)?;
     //println!("With text:\n{}", contents);
-    for result in search(&config.query, &contents, config.case_sensitive) {
+    for result in search(config.query, contents, config.case_sensitive) {
         println!("{}: {}", result.line_no, result.line);
     }
     Ok(())
@@ -35,14 +38,25 @@ fn grep(config: Config) -> Result<(), Box<dyn Error>> {
 
 #[derive(Debug, PartialEq)]
 struct SearchResult {
-    line_no: i32,
+    line_no: usize,
     line: String,
 }
 
-fn search(query: &str, contents: &str, case_sensitive: bool) -> Vec<SearchResult> {
+fn search(mut query: String, mut contents: String, case_sensitive: bool) -> Vec<SearchResult> {
     let mut results = Vec::new();
-    let mut lineno = 1;
-    let query = if case_sensitive { query.to_string() } else { query.to_lowercase() };
+    if !case_sensitive {
+        query = query.to_lowercase();
+        contents = contents.to_lowercase();
+    }
+    for (line_no, line) in contents.lines().enumerate() {
+         // No filter: Need correct line number for SearchResult
+         //.filter(|line| line.contains(&query))
+        if line.contains(&query) {
+            results.push(SearchResult { line_no: line_no + 1, line: line.to_string() });
+        }
+    }
+    /*
+    let mut line_no = 1;
     for line in contents.lines() {
         let mut push = false;
         if case_sensitive && line.contains(&query) {
@@ -55,12 +69,12 @@ fn search(query: &str, contents: &str, case_sensitive: bool) -> Vec<SearchResult
         }
         lineno += 1;
     }
+     */
     results
 }
 
 pub fn run() {
-    let args: Vec<String> = env::args().collect();
-    let config = Config::new(&args).unwrap_or_else(|err| {
+    let config = Config::new(env::args()).unwrap_or_else(|err| {
         eprintln!("Problem parsing args: {}", err);
         process::exit(1);
     });

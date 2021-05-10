@@ -3,9 +3,9 @@
 //mod traits;
 //mod lifetime;
 //mod test;
-//mod minigrep;
+mod minigrep;
 //mod closure;
-mod iterator;
+//mod iterator;
 
 fn main() {
 //    restaurant::run();
@@ -13,8 +13,8 @@ fn main() {
 //    traits::run();
 //    lifetime::run();
 //    test::run();
-//    minigrep::run();
+    minigrep::run();
 //    closure::run();
-    iterator::run();
+//    iterator::run();
 }
 

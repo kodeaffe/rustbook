@@ -4,7 +4,8 @@
 //mod lifetime;
 //mod test;
 //mod minigrep;
-mod closure;
+//mod closure;
+mod iterator;
 
 fn main() {
 //    restaurant::run();
@@ -13,6 +14,7 @@ fn main() {
 //    lifetime::run();
 //    test::run();
 //    minigrep::run();
-    closure::run();
+//    closure::run();
+    iterator::run();
 }
 

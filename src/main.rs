@@ -3,11 +3,12 @@
 //mod traits;
 //mod lifetime;
 //mod test;
-mod minigrep;
+//mod minigrep;
 //mod closure;
 //mod iterator;
+mod boxes;
 
-pub use minigrep::Config;
+//pub use minigrep::Config;
 
 
 fn main() {
@@ -16,8 +17,9 @@ fn main() {
 //    traits::run();
 //    lifetime::run();
 //    test::run();
-    minigrep::run();
+//    minigrep::run();
 //    closure::run();
 //    iterator::run();
+    boxes::run();
 }
 

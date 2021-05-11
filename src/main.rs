@@ -6,7 +6,8 @@
 //mod minigrep;
 //mod closure;
 //mod iterator;
-mod boxes;
+//mod boxes;
+mod drop;
 
 //pub use minigrep::Config;
 
@@ -20,6 +21,7 @@ fn main() {
 //    minigrep::run();
 //    closure::run();
 //    iterator::run();
-    boxes::run();
+//    boxes::run();
+    drop::run();
 }
 

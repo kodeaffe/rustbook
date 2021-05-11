@@ -10,7 +10,8 @@
 //mod drop;
 //mod refcount;
 //mod refcell;
-mod thread;
+//mod thread;
+mod gui;
 
 //pub use minigrep::Config;
 
@@ -28,6 +29,7 @@ fn main() {
 //    drop::run();
 //    refcount::run();
 //    refcell::run();
-    thread::run();
+//    thread::run();
+    gui::run();
 }
 

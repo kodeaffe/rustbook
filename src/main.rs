@@ -12,8 +12,9 @@
 //mod refcell;
 //mod thread;
 //mod gui;
-mod blog_state_pattern;
-mod blog_enum;
+//mod blog_state_pattern;
+//mod blog_enum;
+mod pattern;
 
 
 //pub use minigrep::Config;
@@ -34,7 +35,8 @@ fn main() {
 //    refcell::run();
 //    thread::run();
 //    gui::run();
-    blog_state_pattern::run();
-    blog_enum::run();
+//    blog_state_pattern::run();
+//    blog_enum::run();
+    pattern::run();
 }
 

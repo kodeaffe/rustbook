@@ -14,7 +14,8 @@
 //mod gui;
 //mod blog_state_pattern;
 //mod blog_enum;
-mod pattern;
+//mod pattern;
+mod web;
 
 
 //pub use minigrep::Config;
@@ -37,6 +38,7 @@ fn main() {
 //    gui::run();
 //    blog_state_pattern::run();
 //    blog_enum::run();
-    pattern::run();
+//    pattern::run();
+    web::run();
 }
 

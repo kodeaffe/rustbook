@@ -1,7 +1,7 @@
 [package]
 name = "rustbook"
 description = "Playing with examples from the rustbook"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["kodeaffe <lahi+kodeaffe@posteo.de>"]
 edition = "2018"
 license = "GPL-3.0"
